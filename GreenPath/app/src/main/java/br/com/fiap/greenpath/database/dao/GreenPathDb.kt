@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import br.com.fiap.greenpath.database.model.Co2E
 import br.com.fiap.greenpath.database.model.Usuario
 
-@Database(entities = [Usuario::class], version = 1)
+@Database(entities = [Usuario::class, Co2E::class], version = 1)
 abstract class GreenPathDb: RoomDatabase() {
 
     abstract  fun getUsuariodao(): UsuarioDao
+    abstract fun getCo2E(): Co2EDao
+
 
     companion object {
 

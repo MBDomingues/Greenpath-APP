@@ -6,6 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.greenpath.screens.*
+import br.com.fiap.greenpath.ui.feature_cadastro.TelaCadastro
+import br.com.fiap.greenpath.ui.feature_cadastro_energia.TelaCadastroEnergia
+import br.com.fiap.greenpath.ui.feature_cadastro_transporte.TelaCadastroTransporte
+import br.com.fiap.greenpath.ui.feature_empresas_parceiras.TelaEmpresasParceiras
+import br.com.fiap.greenpath.ui.feature_home.TelaHome
+import br.com.fiap.greenpath.ui.feature_pegada_carbono.TelaPegadaCarbono
+import br.com.fiap.greenpath.ui.feature_tela_inicial.TelaInicial
 
 @Composable
 fun AppNav(
@@ -18,9 +25,9 @@ fun AppNav(
         navController = nav,
         startDestination = startDestination
     ) {
-        composable(Routes.INICIAL) { TelaInicial(navController = nav) /* sem nav aqui; botões só navegam para login/cadastro */ }
+        composable(Routes.INICIAL) { TelaInicial(navController = nav) }
         composable(Routes.LOGIN)   { Login(navController = nav) }
-        composable(Routes.CADASTRO){ TelaCadastro() }
+        composable(Routes.CADASTRO){ TelaCadastro(navController = nav) }
 
         composable(Routes.HOME)    { TelaHome(nav) }
         composable(Routes.PEGADA)  { TelaPegadaCarbono(nav) }

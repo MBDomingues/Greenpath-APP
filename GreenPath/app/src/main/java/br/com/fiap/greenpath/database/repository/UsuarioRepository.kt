@@ -12,4 +12,7 @@ class UsuarioRepository(context: Context) {
         return db.cadastrar(usuario)
     }
 
+    fun buscarPorNomeUsuario(nomeUsuario: String): Usuario{
+        return db.buscarPorNomeUsuario(nomeUsuario)
+    }
 }

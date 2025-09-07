@@ -1,6 +1,6 @@
 package br.com.fiap.greenpath.ui.feature_cadastro
 
-import androidx.activity.result.launch
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,9 +18,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import br.com.fiap.greenpath.database.model.Usuario
 import br.com.fiap.greenpath.database.repository.UsuarioRepository
+import br.com.fiap.greenpath.navigation.Routes
 import br.com.fiap.greenpath.ui.components.Logo
 import br.com.fiap.greenpath.ui.theme.corBotoes
 import br.com.fiap.greenpath.ui.theme.corFinal
@@ -31,14 +32,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun TelaCadastro(
     modifier: Modifier = Modifier,
-    usuarioRepository: UsuarioRepository,
-    onCadastroSucesso: () -> Unit,
-    onCadastroErro: (String) -> Unit
+    navController: NavController
 ) {
     
     //instancia do repositório
     var context = LocalContext.current
-
+    val usuarioRepository = UsuarioRepository(context)
 
     val scope = rememberCoroutineScope()    
     
@@ -172,16 +171,16 @@ fun TelaCadastro(
                                     val idNovoUsuario = usuarioRepository.cadastrar(usuarioNovo) 
 
                                     if (idNovoUsuario > 0) {
-                                        println("Usuário cadastrado com ID: $idNovoUsuario")
-                                        onCadastroSucesso() // Chame o callback de sucesso
+                                        Toast.makeText(context, "Conta criada com sucesso.", Toast.LENGTH_SHORT).show()
+                                        navController.navigate(Routes.LOGIN) {
+                                            popUpTo(Routes.INICIAL) { inclusive = true }
+                                        }
                                     } else {
-                                        println("Falha ao cadastrar usuário (ID não positivo).")
-                                        onCadastroErro("Falha ao criar conta. Tente novamente.")
+                                        Toast.makeText(context, "Falha ao criar conta.", Toast.LENGTH_SHORT).show()
+                                        println("Falha ao criar conta")
                                     }
                                 } catch (e: Exception) {
-                                    println("Erro durante o cadastro: ${e.message}")
-                                    e.printStackTrace()
-                                    onCadastroErro("Erro: ${e.localizedMessage ?: "Ocorreu um problema"}")
+
                                 }
                             }
                         },
@@ -196,20 +195,5 @@ fun TelaCadastro(
                 }
             }
         }
-    }
-}
-
-
-
-@Preview(showBackground = true, name = "Tela de Cadastro")
-@Composable
-fun PreviewTelaCadastro() {
-    MaterialTheme { // Envolver com MaterialTheme para estilos corretos e preview de erro
-        TelaCadastro(
-            modifier = TODO(),
-            usuarioRepository = TODO(),
-            onCadastroSucesso = TODO(),
-            onCadastroErro = TODO()
-        )
     }
 }

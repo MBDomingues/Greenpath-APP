@@ -1,4 +1,4 @@
-package br.com.fiap.greenpath.screens
+package br.com.fiap.greenpath.ui.feature_empresas_parceiras
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,8 +35,7 @@ fun TelaEmpresasParceiras(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(bg)
-            .padding(16.dp),
+            .background(bg),
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -50,7 +49,7 @@ fun TelaEmpresasParceiras(navController: NavController) {
                 Icon(
                     painter = painterResource(id = R.drawable.voltar),
                     contentDescription = "Voltar",
-                    modifier = Modifier.size(30.dp),
+                    modifier = Modifier.size(25.dp),
                     tint = Color.Unspecified
                 )
             }
@@ -58,7 +57,7 @@ fun TelaEmpresasParceiras(navController: NavController) {
                 Icon(
                     painter = painterResource(id = R.drawable.home),
                     contentDescription = "Home",
-                    modifier = Modifier.size(30.dp),
+                    modifier = Modifier.size(25.dp),
                     tint = Color.Unspecified
                 )
             }
@@ -75,7 +74,8 @@ fun TelaEmpresasParceiras(navController: NavController) {
         )
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             ParceiroRowCard(

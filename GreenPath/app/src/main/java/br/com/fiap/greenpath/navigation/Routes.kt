@@ -10,5 +10,5 @@ object Routes {
     const val EMPRESAS = "empresas"
 
     const val CADASTRO_TRANSPORTE = "cadastroTransporte"
-    const val CADASTRO_ENERGIA = "cadastroEnergia" // você chamou essa rota numa tela; criamos a tela abaixo
+    const val CADASTRO_ENERGIA = "cadastroEnergia"
 }

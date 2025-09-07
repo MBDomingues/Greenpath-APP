@@ -1,4 +1,4 @@
-package br.com.fiap.greenpath.screens
+package br.com.fiap.greenpath.ui.feature_pegada_carbono
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
