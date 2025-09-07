@@ -27,6 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import br.com.fiap.greenpath.navigation.Routes
 import br.com.fiap.greenpath.R
 import br.com.fiap.greenpath.components.Logo
 import br.com.fiap.greenpath.ui.theme.MontserratFamily
@@ -35,7 +37,7 @@ import br.com.fiap.greenpath.ui.theme.corFinal
 import br.com.fiap.greenpath.ui.theme.corVerdeTopo
 
 @Composable
-fun TelaInicial(modifier: Modifier = Modifier) {
+fun TelaInicial(modifier: Modifier = Modifier, navController: NavController) {
     val brushDegradeVertical = Brush.verticalGradient(
         colors = listOf(corVerdeTopo, corFinal)
     )
@@ -81,7 +83,7 @@ fun TelaInicial(modifier: Modifier = Modifier) {
                 ) {
                     // Botão "Já tenho conta"
                     Button(
-                        onClick = {},
+                        onClick = { navController.navigate(Routes.LOGIN) },
                         modifier = Modifier
                             .weight(1f),
                         colors = ButtonDefaults.buttonColors(
@@ -94,7 +96,7 @@ fun TelaInicial(modifier: Modifier = Modifier) {
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Button(
-                        onClick = {},
+                        onClick = { navController.navigate(Routes.CADASTRO) },
                         modifier = Modifier
                             .weight(1f),
                         colors = ButtonDefaults.buttonColors(
@@ -107,12 +109,4 @@ fun TelaInicial(modifier: Modifier = Modifier) {
             }
         }
     }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewTelaComLogoNoTopoCentralizada() {
-        TelaInicial()
 }

@@ -21,6 +21,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.navigation.NavController
+import br.com.fiap.greenpath.navigation.Routes
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,7 +52,7 @@ import androidx.compose.runtime.setValue
 
 
 @Composable
-fun Login(modifier: Modifier = Modifier) {
+fun Login(modifier: Modifier = Modifier, navController: NavController) {
     val brushDegradeVertical = Brush.verticalGradient(
         colors = listOf(corVerdeTopo, corFinal)
     )
@@ -125,7 +127,12 @@ fun Login(modifier: Modifier = Modifier) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Button(
-                            onClick = {},
+                            onClick = {
+                                // validação/autenticação aqui
+                                navController.navigate(Routes.HOME) {
+                                    popUpTo(Routes.INICIAL) { inclusive = true } // limpa back stack se quiser
+                                }
+                            },
                             modifier = Modifier.fillMaxWidth(),
                             enabled = usuario.isNotBlank() && senha.isNotBlank(),
                             colors =ButtonDefaults.buttonColors(
@@ -146,12 +153,4 @@ fun Login(modifier: Modifier = Modifier) {
             }
         }
     }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewLogin() {
-    Login()
 }

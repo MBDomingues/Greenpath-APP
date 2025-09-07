@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import br.com.fiap.greenpath.screens.Login
-import br.com.fiap.greenpath.screens.TelaCadastro
-import br.com.fiap.greenpath.screens.TelaInicial
+import br.com.fiap.greenpath.navigation.AppNav
 import br.com.fiap.greenpath.ui.theme.GreenPathTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GreenPathTheme{
-                TelaCadastro()
+                AppNav()
             }
         }
     }
