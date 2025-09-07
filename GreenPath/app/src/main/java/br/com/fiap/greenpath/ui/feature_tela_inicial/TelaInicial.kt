@@ -1,4 +1,4 @@
-package br.com.fiap.greenpath.screens
+package br.com.fiap.greenpath.ui.feature_tela_inicial
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,14 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.greenpath.R
-import br.com.fiap.greenpath.components.Logo
+import br.com.fiap.greenpath.ui.components.Logo
 import br.com.fiap.greenpath.ui.theme.MontserratFamily
 import br.com.fiap.greenpath.ui.theme.corBotoes
 import br.com.fiap.greenpath.ui.theme.corFinal

@@ -1,29 +1,47 @@
-package br.com.fiap.greenpath.screens
+package br.com.fiap.greenpath.ui.feature_cadastro
 
+import androidx.activity.result.launch
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.* // Importa tudo de layout
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.* // Importa tudo de Material3
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.com.fiap.greenpath.components.Logo
+import androidx.lifecycle.ViewModel
+import br.com.fiap.greenpath.database.model.Usuario
+import br.com.fiap.greenpath.database.repository.UsuarioRepository
+import br.com.fiap.greenpath.ui.components.Logo
 import br.com.fiap.greenpath.ui.theme.corBotoes
 import br.com.fiap.greenpath.ui.theme.corFinal
 import br.com.fiap.greenpath.ui.theme.corVerdeTopo
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun TelaCadastro(modifier: Modifier = Modifier) {
+fun TelaCadastro(
+    modifier: Modifier = Modifier,
+    usuarioRepository: UsuarioRepository,
+    onCadastroSucesso: () -> Unit,
+    onCadastroErro: (String) -> Unit
+) {
+    
+    //instancia do repositório
+    var context = LocalContext.current
+
+
+    val scope = rememberCoroutineScope()    
+    
     val brushDegradeVertical = Brush.verticalGradient(
         colors = listOf(corVerdeTopo, corFinal)
     )
@@ -40,6 +58,8 @@ fun TelaCadastro(modifier: Modifier = Modifier) {
 
 
     val senhasCoincidem = senha == confirmarSenha && senha.isNotBlank()
+
+
 
     Box(
         modifier = modifier
@@ -67,7 +87,7 @@ fun TelaCadastro(modifier: Modifier = Modifier) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     label = { Text("E-mail") },
                     shape = RoundedCornerShape(20.dp),
                     singleLine = true,
@@ -82,7 +102,7 @@ fun TelaCadastro(modifier: Modifier = Modifier) {
                 OutlinedTextField(
                     value = usuario,
                     onValueChange = { usuario = it },
-                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     label = { Text("Nome de usuário") },
                     shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
                     singleLine = true,
@@ -97,7 +117,7 @@ fun TelaCadastro(modifier: Modifier = Modifier) {
                 OutlinedTextField(
                     value = senha,
                     onValueChange = { senha = it },
-                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     label = { Text("Senha") },
                     shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
                     singleLine = true,
@@ -114,7 +134,7 @@ fun TelaCadastro(modifier: Modifier = Modifier) {
                 OutlinedTextField(
                     value = confirmarSenha,
                     onValueChange = { confirmarSenha = it },
-                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     label = { Text("Confirmar Senha") },
                     shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
                     singleLine = true,
@@ -139,9 +159,31 @@ fun TelaCadastro(modifier: Modifier = Modifier) {
                     modifier = Modifier.width(200.dp)
                 ) {
                     Button(
+                        //Realiza o cadastrio
                         onClick = {
-                            // Lógica de cadastro aqui
-                            // Ex: if (senhasCoincidem) { /* cadastrar usuário */ }
+                            val usuarioNovo = Usuario(
+                                user = usuario,
+                                passWord = senha,
+                                email = email
+                            )
+                            scope.launch { 
+                                try {
+                                    println("Iniciando cadastro...")
+                                    val idNovoUsuario = usuarioRepository.cadastrar(usuarioNovo) 
+
+                                    if (idNovoUsuario > 0) {
+                                        println("Usuário cadastrado com ID: $idNovoUsuario")
+                                        onCadastroSucesso() // Chame o callback de sucesso
+                                    } else {
+                                        println("Falha ao cadastrar usuário (ID não positivo).")
+                                        onCadastroErro("Falha ao criar conta. Tente novamente.")
+                                    }
+                                } catch (e: Exception) {
+                                    println("Erro durante o cadastro: ${e.message}")
+                                    e.printStackTrace()
+                                    onCadastroErro("Erro: ${e.localizedMessage ?: "Ocorreu um problema"}")
+                                }
+                            }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         enabled = email.isNotBlank() && usuario.isNotBlank() && senhasCoincidem, // Habilita se tudo estiver ok
@@ -158,10 +200,16 @@ fun TelaCadastro(modifier: Modifier = Modifier) {
 }
 
 
+
 @Preview(showBackground = true, name = "Tela de Cadastro")
 @Composable
 fun PreviewTelaCadastro() {
     MaterialTheme { // Envolver com MaterialTheme para estilos corretos e preview de erro
-        TelaCadastro()
+        TelaCadastro(
+            modifier = TODO(),
+            usuarioRepository = TODO(),
+            onCadastroSucesso = TODO(),
+            onCadastroErro = TODO()
+        )
     }
 }
