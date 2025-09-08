@@ -13,13 +13,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import br.com.fiap.greenpath.R
 import br.com.fiap.greenpath.navigation.Routes
 import br.com.fiap.greenpath.ui.theme.MontserratFamily
@@ -39,7 +38,6 @@ fun TelaEmpresasParceiras(navController: NavController) {
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Top bar
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -48,7 +46,7 @@ fun TelaEmpresasParceiras(navController: NavController) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.voltar),
-                    contentDescription = "Voltar",
+                    contentDescription = stringResource(R.string.gp_cd_back),
                     modifier = Modifier.size(25.dp),
                     tint = Color.Unspecified
                 )
@@ -56,7 +54,7 @@ fun TelaEmpresasParceiras(navController: NavController) {
             IconButton(onClick = { navController.navigate(Routes.HOME) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.home),
-                    contentDescription = "Home",
+                    contentDescription = stringResource(R.string.gp_cd_home_icon),
                     modifier = Modifier.size(25.dp),
                     tint = Color.Unspecified
                 )
@@ -64,7 +62,7 @@ fun TelaEmpresasParceiras(navController: NavController) {
         }
 
         Text(
-            text = "Lojas Parceiras",
+            text = stringResource(R.string.gp_partners_screen_title),
             style = MaterialTheme.typography.titleLarge,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
@@ -74,46 +72,46 @@ fun TelaEmpresasParceiras(navController: NavController) {
         )
 
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             ParceiroRowCard(
                 iconRes = R.drawable.mercadosicon,
-                titulo = "Mercado",
+                titulo = stringResource(R.string.gp_partner_market),
                 nota = "4,5",
-                distancia = "2,5Km",
+                distancia = stringResource(R.string.gp_label_distance, "2,5Km"),
                 shape = shape
             )
             ParceiroRowCard(
                 iconRes = R.drawable.viagensicon,
-                titulo = "Viagem",
+                titulo = stringResource(R.string.gp_partner_trip),
                 nota = "4,5",
-                distancia = "2,5Km",
+                distancia = stringResource(R.string.gp_label_distance, "2,5Km"),
                 shape = shape
             )
             ParceiroRowCard(
                 iconRes = R.drawable.restaurantesicon,
-                titulo = "Restaurante",
+                titulo = stringResource(R.string.gp_partner_restaurant),
                 nota = "4,5",
-                distancia = "2,5Km",
+                distancia = stringResource(R.string.gp_label_distance, "2,5Km"),
                 shape = shape
             )
             ParceiroRowCard(
                 iconRes = R.drawable.eletronicosicon,
-                titulo = "Eletrônicos",
+                titulo = stringResource(R.string.gp_partner_electronics),
                 nota = "4,5",
-                distancia = "2,5Km",
+                distancia = stringResource(R.string.gp_label_distance, "2,5Km"),
                 shape = shape
             )
         }
 
-        // Rodapé
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Text("Dúvida ?", style = MaterialTheme.typography.bodyLarge, fontFamily = MontserratFamily)
+            Text(stringResource(R.string.gp_question_short), style = MaterialTheme.typography.bodyLarge, fontFamily = MontserratFamily)
         }
     }
 }
@@ -160,7 +158,7 @@ fun ParceiroRowCard(
                     fontFamily = MontserratFamily
                 )
                 Text(
-                    text = "Nota: $nota",
+                    text = stringResource(R.string.gp_label_rating, nota),
                     style = MaterialTheme.typography.bodySmall,
                     fontFamily = MontserratFamily
                 )
@@ -173,11 +171,4 @@ fun ParceiroRowCard(
             )
         }
     }
-}
-
-@Preview(showBackground = true, name = "Empresas Parceiras - 4 rows")
-@Composable
-private fun PreviewEmpresasParceiras() {
-    val nav = rememberNavController()
-    TelaEmpresasParceiras(nav)
 }

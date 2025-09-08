@@ -1,3 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App -->
     <string name="app_name">GreenPath</string>
+
+    <!-- Comuns / Acessibilidade -->
+    <string name="gp_cd_logo">Logo da Empresa</string>
+    <string name="gp_cd_home">Início</string>
+    <string name="gp_cd_profile">Perfil</string>
+    <string name="gp_cd_back">Voltar</string>
+    <string name="gp_cd_home_icon">Home</string>
+    <string name="gp_cd_earth_globe">Globo Terrestre</string>
+
+    <!-- Onboarding / Tela Inicial -->
+    <string name="gp_onboarding_headline">Sua jornada verde começa aqui</string>
+    <string name="gp_onboarding_subhead">Acompanhe suas emissões de CO₂ e transforme &#10;hábitos em ações sustentáveis.</string>
+    <string name="gp_btn_i_have_account">Já tenho conta</string>
+    <string name="gp_btn_sign_up">Cadastrar</string>
+
+    <!-- Login -->
+    <string name="gp_login_title">Faça seu login</string>
+    <string name="gp_label_username">Nome de usuário</string>
+    <string name="gp_label_password">Senha</string>
+    <string name="gp_btn_sign_in">Entrar</string>
+    <string name="gp_forgot_password">esqueci minha senha</string>
+    <string name="gp_error_wrong_password">Senha incorreta. Tente novamente.</string>
+    <string name="gp_error_login">Erro ao fazer Login.</string>
+
+    <!-- Cadastro (Sign Up) -->
+    <string name="gp_signup_title">Crie sua conta</string>
+    <string name="gp_label_email">E-mail</string>
+    <string name="gp_label_confirm_password">Confirmar Senha</string>
+    <string name="gp_error_password_mismatch">As senhas não coincidem</string>
+    <string name="gp_toast_account_created">Conta criada com sucesso.</string>
+    <string name="gp_toast_account_failed">Falha ao criar conta.</string>
+
+    <!-- Home -->
+    <string name="gp_home_title">Resumo de Emissões</string>
+    <string name="gp_home_co2_title">CO2</string>
+    <string name="gp_home_value_with_kg">%1$.2f Kg</string>
+    <string name="gp_home_btn_register_emissions">Cadastrar Emissões de CO₂</string>
+    <string name="gp_home_partners_title">Lojas Parceiras</string>
+    <string name="gp_home_chip_see_more">Ver mais</string>
+    <string name="gp_partner_restaurants">Restaurantes</string>
+    <string name="gp_partner_markets">Mercados</string>
+    <string name="gp_partner_travel">Viagens</string>
+
+    <!-- Pegada de Carbono -->
+    <string name="gp_footprint_transport">Transporte</string>
+    <string name="gp_footprint_home_energy">Casa e energia</string>
+    <string name="gp_question_short">Dúvida ?</string>
+
+    <!-- Empresas Parceiras -->
+    <string name="gp_partners_screen_title">Lojas Parceiras</string>
+    <string name="gp_partner_market">Mercado</string>
+    <string name="gp_partner_trip">Viagem</string>
+    <string name="gp_partner_restaurant">Restaurante</string>
+    <string name="gp_partner_electronics">Eletrônicos</string>
+    <string name="gp_label_rating">Nota: %1$s</string>
+    <string name="gp_label_distance">%1$s</string>
+
+    <!-- Cadastro Transporte -->
+    <string name="gp_transport_title">Informações</string>
+    <string name="gp_transport_type_label">Tipo de Transporte</string>
+    <string name="gp_transport_distance_label">Distância</string>
+    <string name="gp_unit_km">Km</string>
+    <string name="gp_msg_distance_invalid">Por favor, insira uma distância válida.</string>
+    <string name="gp_msg_transport_invalid">Tipo de transporte inválido ou não configurado para cálculo.</string>
+    <string name="gp_msg_userid_missing">Erro: ID do usuário não encontrado. Faça login novamente.</string>
+    <string name="gp_msg_transport_zero_saved">Transporte registrado com %1$.2f %2$s CO2e!</string>
+    <string name="gp_msg_transport_api_error">Erro da API: %1$s</string>
+    <string name="gp_msg_transport_config_invalid">Configuração de transporte inválida.</string>
+    <string name="gp_btn_submit">Cadastrar</string>
+
+    <!-- Cadastro Energia -->
+    <string name="gp_energy_title">Informações de Energia</string>
+    <string name="gp_energy_reminder">Lembre-se: você só precisa fazer isso uma vez por mês,&#10;usando os dados da sua conta de luz.</string>
+    <string name="gp_energy_monthly_label">Consumo Mensal de Eletricidade</string>
+    <string name="gp_energy_kwh_label">Consumo em kWh</string>
+    <string name="gp_unit_kwh">kWh</string>
+    <string name="gp_msg_energy_invalid">Por favor, insira um consumo de eletricidade válido.</string>
+    <string name="gp_msg_energy_api_error">Erro API (Eletricidade): %1$s</string>
+    <string name="gp_msg_energy_db_fail">Falha ao salvar eletricidade no banco.</string>
+    <string name="gp_msg_energy_saved">Eletricidade: %1$.2f %2$s CO2e registrados!</string>
+
+    <!-- Genérico -->
+    <string name="gp_generic_error">Erro: %1$s</string>
 </resources>

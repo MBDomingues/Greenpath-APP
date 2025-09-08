@@ -2,18 +2,7 @@ package br.com.fiap.greenpath.ui.feature_tela_inicial
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -22,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -46,9 +35,9 @@ fun TelaInicial(modifier: Modifier = Modifier, navController: NavController) {
             .fillMaxSize()
             .background(brush = brushDegradeVertical)
     ){
-        Column() {
+        Column {
             Logo(
-                texto = "Sua jornada verde começa aqui"
+                texto = stringResource(R.string.gp_onboarding_headline)
             )
 
             Column(
@@ -58,8 +47,7 @@ fun TelaInicial(modifier: Modifier = Modifier, navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Acompanhe suas emissões de CO₂ e transforme \n" +
-                            "hábitos em ações sustentáveis.",
+                    text = stringResource(R.string.gp_onboarding_subhead),
                     textAlign = TextAlign.Center,
                     fontSize = 12.sp,
                     lineHeight = 24.sp,
@@ -70,7 +58,7 @@ fun TelaInicial(modifier: Modifier = Modifier, navController: NavController) {
 
                 Image(
                     painter = painterResource(id = R.drawable.globoelanicial),
-                    contentDescription = "Globo Terrestre",
+                    contentDescription = stringResource(R.string.gp_cd_earth_globe),
                     modifier = Modifier.size(180.dp)
                 )
                 Row(
@@ -80,29 +68,22 @@ fun TelaInicial(modifier: Modifier = Modifier, navController: NavController) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Botão "Já tenho conta"
                     Button(
                         onClick = { navController.navigate(Routes.LOGIN) },
-                        modifier = Modifier
-                            .weight(1f),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = corBotoes
-                        )
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.buttonColors(containerColor = corBotoes)
                     ) {
-                        Text("Já tenho conta")
+                        Text(stringResource(R.string.gp_btn_i_have_account))
                     }
 
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Button(
                         onClick = { navController.navigate(Routes.CADASTRO) },
-                        modifier = Modifier
-                            .weight(1f),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = corBotoes
-                        )
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.buttonColors(containerColor = corBotoes)
                     ) {
-                        Text("Cadastrar")
+                        Text(stringResource(R.string.gp_btn_sign_up))
                     }
                 }
             }

@@ -14,11 +14,10 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import br.com.fiap.greenpath.R
 import br.com.fiap.greenpath.navigation.Routes
 import br.com.fiap.greenpath.ui.theme.MontserratFamily
@@ -38,7 +37,6 @@ fun TelaPegadaCarbono(navController: NavController) {
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.SpaceAround
     ) {
-        // Barra superior: voltar (esq) e home (dir)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -47,7 +45,7 @@ fun TelaPegadaCarbono(navController: NavController) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.voltar),
-                    contentDescription = "Voltar",
+                    contentDescription = stringResource(R.string.gp_cd_back),
                     modifier = Modifier.size(28.dp),
                     tint = Color.Unspecified
                 )
@@ -55,36 +53,33 @@ fun TelaPegadaCarbono(navController: NavController) {
             IconButton(onClick = { navController.navigate(Routes.HOME) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.home),
-                    contentDescription = "Home",
+                    contentDescription = stringResource(R.string.gp_cd_home_icon),
                     modifier = Modifier.size(28.dp),
                     tint = Color.Unspecified
                 )
             }
         }
 
-        // Card: Transporte
         PegadaOptionCard(
             iconRes = R.drawable.carro,
-            label = "Transporte",
+            label = stringResource(R.string.gp_footprint_transport),
             shape = cardShape,
             onClick = { navController.navigate(Routes.CADASTRO_TRANSPORTE) }
         )
 
-        // Card: Casa e energia
         PegadaOptionCard(
             iconRes = R.drawable.casa,
-            label = "Casa e energia",
+            label = stringResource(R.string.gp_footprint_home_energy),
             shape = cardShape,
             onClick = { navController.navigate(Routes.CADASTRO_ENERGIA) }
         )
 
-        // Rodapé simples
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Dúvida ?",
+                text = stringResource(R.string.gp_question_short),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontFamily = MontserratFamily
@@ -92,10 +87,6 @@ fun TelaPegadaCarbono(navController: NavController) {
         }
     }
 }
-
-/* =========================
- * COMPONENTES
- * ========================= */
 
 @Composable
 fun PegadaOptionCard(
@@ -108,12 +99,12 @@ fun PegadaOptionCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(6.dp, shape, clip = false)          // sombra suave, como no mock
-            .border(1.dp, corBotoes, shape)             // borda verde fina
+            .shadow(6.dp, shape, clip = false)
+            .border(1.dp, corBotoes, shape)
             .clickable(onClick = onClick),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp) // sombra via Modifier.shadow
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier
@@ -135,14 +126,4 @@ fun PegadaOptionCard(
             )
         }
     }
-}
-
-/* =========================
- * PREVIEW
- * ========================= */
-@Preview(showBackground = true, name = "Pegada de Carbono")
-@Composable
-private fun PreviewPegada() {
-    val nav = rememberNavController()
-    TelaPegadaCarbono(nav)
 }

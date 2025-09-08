@@ -9,23 +9,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import br.com.fiap.greenpath.R
 import br.com.fiap.greenpath.database.model.ClimatiqEstimateRequest
 import br.com.fiap.greenpath.database.model.Co2E
@@ -43,46 +40,33 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
 const val ACTIVITY_ID_ELETRICIDADE_DEFAULT = "electricity-supply_grid-source_residual_mix"
 const val DATA_VERSION_CLIMATIQ = "^21"
 
 @Composable
 fun TelaCadastroEnergia(navController: NavController) {
-
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val bg = Brush.verticalGradient(listOf(corVerdeTopo, corFinal))
     val shape = RoundedCornerShape(16.dp)
 
-    //instância do UserPreferencesRepository
     val userPreferencesRepository = remember { UserPreferencesRepository(context) }
     val userIdState: State<Long?> = userPreferencesRepository.userIdFlow.collectAsState(initial = null)
-
-
-
 
     val co2eService: Co2eService = remember { RetrofitFactory.co2eService }
     val co2ERepository = Co2ERepository(context)
 
-
     var isLoading by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
-
     var consumoEletricidadeText by remember { mutableStateOf("") }
 
-
     fun mostrarMensagem(mensagem: String, duracao: SnackbarDuration = SnackbarDuration.Short) {
-        scope.launch {
-            snackbarHostState.showSnackbar(message = mensagem, duration = duracao)
-        }
+        scope.launch { snackbarHostState.showSnackbar(message = mensagem, duration = duracao) }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { paddingValues ->
+    Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -91,7 +75,7 @@ fun TelaCadastroEnergia(navController: NavController) {
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Top bar (seu código)
+            // Top bar
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -100,7 +84,7 @@ fun TelaCadastroEnergia(navController: NavController) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         painter = painterResource(id = R.drawable.voltar),
-                        contentDescription = "Voltar",
+                        contentDescription = stringResource(R.string.gp_cd_back),
                         modifier = Modifier.size(25.dp),
                         tint = Color.Unspecified
                     )
@@ -108,7 +92,7 @@ fun TelaCadastroEnergia(navController: NavController) {
                 IconButton(onClick = { navController.navigate(Routes.HOME) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.home),
-                        contentDescription = "Home",
+                        contentDescription = stringResource(R.string.gp_cd_home_icon),
                         modifier = Modifier.size(25.dp),
                         tint = Color.Unspecified
                     )
@@ -117,7 +101,7 @@ fun TelaCadastroEnergia(navController: NavController) {
 
             // Título
             Text(
-                text = "Informações de Energia",
+                text = stringResource(R.string.gp_energy_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
@@ -126,22 +110,24 @@ fun TelaCadastroEnergia(navController: NavController) {
                 textAlign = TextAlign.Center
             )
 
-            // Lembrete centralizado
+            // Lembrete
             Text(
-                text = "Lembre-se: você só precisa fazer isso uma vez por mês,\nusando os dados da sua conta de luz.",
+                text = stringResource(R.string.gp_energy_reminder),
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = MontserratFamily,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
 
-            // --- Consumo de Eletricidade ---
+            // Consumo
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp)
             ) {
                 Text(
-                    text = "Consumo Mensal de Eletricidade",
+                    text = stringResource(R.string.gp_energy_monthly_label),
                     style = MaterialTheme.typography.bodyLarge,
                     fontFamily = MontserratFamily,
                     textAlign = TextAlign.Center
@@ -151,7 +137,7 @@ fun TelaCadastroEnergia(navController: NavController) {
                     value = consumoEletricidadeText,
                     onValueChange = { novo ->
                         val permitido = novo.replace(',', '.')
-                        if (permitido.isEmpty() || permitido.matches(Regex("^\\d*\\.?\\d*\$"))) {
+                        if (permitido.isEmpty() || permitido.matches(Regex("^\\d*\\.?\\d*$"))) {
                             consumoEletricidadeText = permitido
                         }
                     },
@@ -159,8 +145,14 @@ fun TelaCadastroEnergia(navController: NavController) {
                         .fillMaxWidth(0.85f)
                         .height(200.dp),
                     singleLine = true,
-                    label = { Text("Consumo em kWh") },
-                    suffix = { Text("kWh", fontSize = 60.sp, fontFamily = MontserratFamily) },
+                    label = { Text(stringResource(R.string.gp_energy_kwh_label)) },
+                    suffix = {
+                        Text(
+                            stringResource(R.string.gp_unit_kwh),
+                            fontSize = 60.sp,
+                            fontFamily = MontserratFamily
+                        )
+                    },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
@@ -174,39 +166,32 @@ fun TelaCadastroEnergia(navController: NavController) {
                 )
             }
 
-
-            // Indicador de Carregamento
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.padding(vertical = 16.dp))
             }
 
-            // Botão Cadastrar
+            // Botão
             Button(
                 onClick = {
                     val idUsuarioLogado: Long? = userIdState.value
-
                     val consumoEletricidadeFloat = consumoEletricidadeText.toFloatOrNull()
 
                     if (consumoEletricidadeFloat == null || consumoEletricidadeFloat <= 0) {
-                        mostrarMensagem("Por favor, insira um consumo de eletricidade válido.")
+                        mostrarMensagem(context.getString(R.string.gp_msg_energy_invalid))
                         return@Button
                     }
 
                     isLoading = true
                     if (idUsuarioLogado == null) {
-                        mostrarMensagem("Erro: ID do usuário não encontrado. Faça login novamente.", SnackbarDuration.Long)
-                        isLoading = false // Certifique-se de resetar o loading
+                        mostrarMensagem(context.getString(R.string.gp_msg_userid_missing), SnackbarDuration.Long)
+                        isLoading = false
                         return@Button
                     }
                     scope.launch {
-                        var sucessoNaOperacao = false
-
-
-
                         try {
                             val requestBody = ClimatiqEstimateRequest(
                                 emissionFactor = EmissionFactorSelector(
-                                    activityId = ACTIVITY_ID_ELETRICIDADE_DEFAULT, // USE O ID CORRETO PARA SUA REGIÃO!
+                                    activityId = ACTIVITY_ID_ELETRICIDADE_DEFAULT,
                                     dataVersion = DATA_VERSION_CLIMATIQ
                                 ),
                                 parameters = mapOf(
@@ -226,35 +211,45 @@ fun TelaCadastroEnergia(navController: NavController) {
                                     valorCo2e = apiData.co2e.toFloat(),
                                     unidadeCo2e = apiData.co2eUnit,
                                     dataRegistro = dataAtualFormatada
-
                                 )
                                 val idSalvo = co2ERepository.cadastrar(novaEmissao)
                                 if (idSalvo > 0) {
-                                    mostrarMensagem("Eletricidade: ${String.format("%.2f", apiData.co2e.toFloat())} ${apiData.co2eUnit} CO2e registrados!")
-                                    consumoEletricidadeText = "" // Limpa o campo
-                                    sucessoNaOperacao = true
-
+                                    mostrarMensagem(
+                                        context.getString(
+                                            R.string.gp_msg_energy_saved,
+                                            apiData.co2e.toFloat(),
+                                            apiData.co2eUnit
+                                        )
+                                    )
+                                    consumoEletricidadeText = ""
                                 } else {
-                                    mostrarMensagem("Falha ao salvar eletricidade no banco.", SnackbarDuration.Long)
+                                    mostrarMensagem(context.getString(R.string.gp_msg_energy_db_fail), SnackbarDuration.Long)
                                 }
                             } else {
                                 val errorBody = response.errorBody()?.string() ?: "Erro desconhecido da API para Eletricidade"
-                                mostrarMensagem("Erro API (Eletricidade): $errorBody", SnackbarDuration.Long)
+                                mostrarMensagem(context.getString(R.string.gp_msg_energy_api_error, errorBody), SnackbarDuration.Long)
                             }
                         } catch (e: Exception) {
-                            mostrarMensagem("Erro (Eletricidade): ${e.localizedMessage ?: "Ocorreu um problema"}", SnackbarDuration.Long)
-                            e.printStackTrace()
+                            mostrarMensagem(
+                                context.getString(
+                                    R.string.gp_generic_error,
+                                    e.localizedMessage ?: "Ocorreu um problema"
+                                ),
+                                SnackbarDuration.Long
+                            )
                         } finally {
                             isLoading = false
                         }
                     }
                 },
-                modifier = Modifier.fillMaxWidth(0.6f).padding(vertical = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.6f)
+                    .padding(vertical = 16.dp),
                 shape = shape,
                 colors = ButtonDefaults.buttonColors(containerColor = corBotoes),
                 enabled = !isLoading
             ) {
-                Text("Cadastrar", color = Color.White)
+                Text(stringResource(R.string.gp_btn_submit), color = Color.White)
             }
 
             Row(
@@ -262,18 +257,11 @@ fun TelaCadastroEnergia(navController: NavController) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    "Dúvida ?",
+                    stringResource(R.string.gp_question_short),
                     style = MaterialTheme.typography.bodyLarge,
                     fontFamily = MontserratFamily
                 )
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PreviewCadastroEnergia() {
-    val nav = rememberNavController()
-    TelaCadastroEnergia(nav)
 }

@@ -18,12 +18,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import br.com.fiap.greenpath.R
 import br.com.fiap.greenpath.database.repository.Co2ERepository
 import br.com.fiap.greenpath.navigation.Routes
@@ -34,21 +33,16 @@ import br.com.fiap.greenpath.ui.theme.corVerdeTopo
 
 @Composable
 fun TelaHome(navController: NavController) {
-
-    var context = LocalContext.current
-
-    //instância do UserPreferencesRepository
+    val context = LocalContext.current
     val userPreferencesRepository = remember { UserPreferencesRepository(context) }
     val userIdState: State<Long?> = userPreferencesRepository.userIdFlow.collectAsState(initial = null)
     val idUsuarioLogado: Long? = userIdState.value
-    //instancias
 
     val co2ERepository = Co2ERepository(context)
-    var quantidadeCo2 = co2ERepository.buscarSomaGasto(idUsuarioLogado)
+    val quantidadeCo2 = co2ERepository.buscarSomaGasto(idUsuarioLogado)
 
-    val brushDegradeVertical = Brush.verticalGradient(
-        colors = listOf(corVerdeTopo, corFinal)
-    )
+    val brushDegradeVertical = Brush.verticalGradient(colors = listOf(corVerdeTopo, corFinal))
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,32 +54,8 @@ fun TelaHome(navController: NavController) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceAround
         ) {
-            // Topo
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = { /* vazio */ }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.homeicon),
-                        contentDescription = "Início",
-                        modifier = Modifier.size(30.dp),
-                    )
-                }
-                Spacer(Modifier.weight(1f))
-                IconButton(onClick = { /* vazio */ }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.perfilicon),
-                        contentDescription = "Perfil",
-                        modifier = Modifier.size(30.dp),
-                    )
-                }
-            }
-
-            // Título
             Text(
-                text = "Resumo de Emissões",
+                text = stringResource(R.string.gp_home_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontFamily = MontserratFamily,
                 color = corBotoes,
@@ -93,13 +63,11 @@ fun TelaHome(navController: NavController) {
                 fontWeight = FontWeight.Bold
             )
 
-            // Card principal
             EmissionSummaryCardSimple(
-                titulo = "CO2",
+                titulo = stringResource(R.string.gp_home_co2_title),
                 valor = quantidadeCo2
             )
 
-            // ===== Botões (com a MESMA sombra do card) =====
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -112,24 +80,21 @@ fun TelaHome(navController: NavController) {
                         .shadow(2.dp, RoundedCornerShape(14.dp), clip = false),
                     shape = RoundedCornerShape(14.dp),
                 ) {
-                    Text("Cadastrar Emissões de CO₂")
+                    Text(stringResource(R.string.gp_home_btn_register_emissions))
                 }
-
             }
 
-            // Parceiros
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // Título + "Ver mais"
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Lojas Parceiras",
+                        text = stringResource(R.string.gp_home_partners_title),
                         style = MaterialTheme.typography.titleMedium,
                         fontFamily = MontserratFamily
                     )
@@ -139,7 +104,6 @@ fun TelaHome(navController: NavController) {
                     )
                 }
 
-                // 3 parceiros em linha
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceAround,
@@ -147,17 +111,17 @@ fun TelaHome(navController: NavController) {
                 ) {
                     ParceiroItem(
                         iconRes = R.drawable.restaurantesicon,
-                        label = "Restaurantes",
+                        label = stringResource(R.string.gp_partner_restaurants),
                         onClick = { navController.navigate(Routes.EMPRESAS) }
                     )
                     ParceiroItem(
                         iconRes = R.drawable.mercadosicon,
-                        label = "Mercados",
+                        label = stringResource(R.string.gp_partner_markets),
                         onClick = { navController.navigate(Routes.EMPRESAS) }
                     )
                     ParceiroItem(
                         iconRes = R.drawable.viagensicon,
-                        label = "Viagens",
+                        label = stringResource(R.string.gp_partner_travel),
                         onClick = { navController.navigate(Routes.EMPRESAS) }
                     )
                 }
@@ -165,10 +129,6 @@ fun TelaHome(navController: NavController) {
         }
     }
 }
-
-/* =========================
- * COMPONENTES
- * ========================= */
 
 @Composable
 fun EmissionSummaryCardSimple(
@@ -198,7 +158,7 @@ fun EmissionSummaryCardSimple(
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "${valor} Kg",
+                text = stringResource(R.string.gp_home_value_with_kg, valor),
                 style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                 fontFamily = MontserratFamily
             )
@@ -216,12 +176,9 @@ fun VerMaisChip(onClick: () -> Unit) {
             .height(30.dp)
             .width(80.dp)
     ) {
-        TextButton(
-            onClick = onClick,
-
-        ) {
+        TextButton(onClick = onClick) {
             Text(
-                "Ver mais",
+                stringResource(R.string.gp_home_chip_see_more),
                 color = corBotoes,
                 fontFamily = MontserratFamily,
                 fontSize = 10.sp
@@ -229,7 +186,6 @@ fun VerMaisChip(onClick: () -> Unit) {
         }
     }
 }
-
 
 @Composable
 fun ParceiroItem(
@@ -260,11 +216,4 @@ fun ParceiroItem(
             fontFamily = MontserratFamily
         )
     }
-}
-
-@Preview(showBackground = true, name = "Home simples")
-@Composable
-private fun PreviewHome() {
-    val nav = rememberNavController()
-    TelaHome(nav)
 }

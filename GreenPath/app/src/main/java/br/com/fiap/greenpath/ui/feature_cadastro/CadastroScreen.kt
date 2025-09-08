@@ -5,20 +5,24 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import br.com.fiap.greenpath.R
 import br.com.fiap.greenpath.database.model.Usuario
 import br.com.fiap.greenpath.database.repository.UsuarioRepository
 import br.com.fiap.greenpath.navigation.Routes
@@ -28,51 +32,34 @@ import br.com.fiap.greenpath.ui.theme.corFinal
 import br.com.fiap.greenpath.ui.theme.corVerdeTopo
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun TelaCadastro(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
-    
-    //instancia do repositório
-    var context = LocalContext.current
+    val context = LocalContext.current
     val usuarioRepository = UsuarioRepository(context)
+    val scope = rememberCoroutineScope()
 
-    val scope = rememberCoroutineScope()    
-    
-    val brushDegradeVertical = Brush.verticalGradient(
-        colors = listOf(corVerdeTopo, corFinal)
-    )
+    val brushDegradeVertical = Brush.verticalGradient(colors = listOf(corVerdeTopo, corFinal))
 
-    // Estados para os campos do formulário de cadastro
     var email by rememberSaveable { mutableStateOf("") }
     var usuario by rememberSaveable { mutableStateOf("") }
     var senha by rememberSaveable { mutableStateOf("") }
     var confirmarSenha by rememberSaveable { mutableStateOf("") }
 
-    // Estados para visibilidade das senhas
     var senhaVisivel by rememberSaveable { mutableStateOf(false) }
     var confirmarSenhaVisivel by rememberSaveable { mutableStateOf(false) }
 
-
     val senhasCoincidem = senha == confirmarSenha && senha.isNotBlank()
-
-
 
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(brush = brushDegradeVertical)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Logo(
-                texto = "Crie sua conta",
-                modifier = Modifier
-            )
-
+        Column(modifier = Modifier.fillMaxSize()) {
+            Logo(texto = stringResource(R.string.gp_signup_title), modifier = Modifier)
 
             Column(
                 modifier = Modifier
@@ -82,12 +69,12 @@ fun TelaCadastro(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                // Campo de E-mail
+                // E-mail
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("E-mail") },
+                    label = { Text(stringResource(R.string.gp_label_email)) },
                     shape = RoundedCornerShape(20.dp),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
@@ -97,13 +84,13 @@ fun TelaCadastro(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Campo de Usuário
+                // Usuário
                 OutlinedTextField(
                     value = usuario,
                     onValueChange = { usuario = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Nome de usuário") },
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
+                    label = { Text(stringResource(R.string.gp_label_username)) },
+                    shape = RoundedCornerShape(20.dp),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
@@ -112,30 +99,29 @@ fun TelaCadastro(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Campo de Senha
+                // Senha
                 OutlinedTextField(
                     value = senha,
                     onValueChange = { senha = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Senha") },
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
+                    label = { Text(stringResource(R.string.gp_label_password)) },
+                    shape = RoundedCornerShape(20.dp),
                     singleLine = true,
                     visualTransformation = if (senhaVisivel) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Next
                     ),
-
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Campo de Confirmar Senha
+                // Confirmar senha
                 OutlinedTextField(
                     value = confirmarSenha,
                     onValueChange = { confirmarSenha = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Confirmar Senha") },
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
+                    label = { Text(stringResource(R.string.gp_label_confirm_password)) },
+                    shape = RoundedCornerShape(20.dp),
                     singleLine = true,
                     visualTransformation = if (confirmarSenhaVisivel) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(
@@ -143,54 +129,58 @@ fun TelaCadastro(
                         imeAction = ImeAction.Done
                     ),
                 )
+
                 if (confirmarSenha.isNotBlank() && !senhasCoincidem) {
                     Text(
-                        text = "As senhas não coincidem",
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodySmall,
+                        text = stringResource(R.string.gp_error_password_mismatch),
+                        color = androidx.compose.material3.MaterialTheme.colorScheme.error,
+                        style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
                         modifier = Modifier.padding(start = 16.dp, top = 4.dp)
                     )
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                Row(
-                    modifier = Modifier.width(200.dp)
-                ) {
+                Row(modifier = Modifier.width(200.dp)) {
                     Button(
-                        //Realiza o cadastrio
                         onClick = {
-                            val usuarioNovo = Usuario(
-                                user = usuario,
-                                passWord = senha,
-                                email = email
-                            )
-                            scope.launch { 
+                            val usuarioNovo = Usuario(user = usuario, passWord = senha, email = email)
+                            scope.launch {
                                 try {
-                                    println("Iniciando cadastro...")
-                                    val idNovoUsuario = usuarioRepository.cadastrar(usuarioNovo) 
-
+                                    val idNovoUsuario = usuarioRepository.cadastrar(usuarioNovo)
                                     if (idNovoUsuario > 0) {
-                                        Toast.makeText(context, "Conta criada com sucesso.", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.gp_toast_account_created),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                         navController.navigate(Routes.LOGIN) {
                                             popUpTo(Routes.INICIAL) { inclusive = true }
                                         }
                                     } else {
-                                        Toast.makeText(context, "Falha ao criar conta.", Toast.LENGTH_SHORT).show()
-                                        println("Falha ao criar conta")
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.gp_toast_account_failed),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                 } catch (e: Exception) {
-
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(
+                                            R.string.gp_generic_error,
+                                            e.localizedMessage ?: "Ocorreu um problema"
+                                        ),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
-                        enabled = email.isNotBlank() && usuario.isNotBlank() && senhasCoincidem, // Habilita se tudo estiver ok
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = corBotoes
-                        )
+                        enabled = email.isNotBlank() && usuario.isNotBlank() && senhasCoincidem,
+                        colors = ButtonDefaults.buttonColors(containerColor = corBotoes)
                     ) {
-                        Text("Cadastrar")
+                        Text(stringResource(R.string.gp_btn_sign_up))
                     }
                 }
             }
