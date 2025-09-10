@@ -1,52 +1,61 @@
 # GreenPath 🍃
 
-> Sua Jornada Verde Começa Aqui. Um aplicativo para monitorar e reduzir sua pegada de carbono.
+> Your Green Journey Starts Here. An app to monitor and reduce your carbon footprint.
 
-![Badge de Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
-![Badge de Licença](https://img.shields.io/badge/license-MIT-green)
+![Status Badge](https://img.shields.io/badge/status-in%20development-yellow)
+![License Badge](https://img.shields.io/badge/license-MIT-green)
 
-Projeto de aplicativo móvel desenvolvido como MVP para a disciplina de [Nome da Disciplina ou Matéria], com foco em aplicar conceitos de ESG (Environmental, Social, and Governance) para criar um impacto ambiental positivo.
-
----
-
-### 📋 Índice
-
-* [Sobre o Projeto](#-sobre-o-projeto)
-* [✨ Funcionalidades](#-funcionalidades)
-* [📱 Telas do App](#-telas-do-app)
-* [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
-* [🚀 Como Executar o Projeto](#-como-executar-o-projeto)
-* [📝 Licença](#-licença)
-* [👨‍💻 Autor](#-autor)
+A mobile application project developed as an MVP for the Android Development course, focusing on applying ESG (Environmental, Social, and Governance) concepts to create a positive environmental impact.
 
 ---
 
-### 📌 Sobre o Projeto
+### 📋 Table of Contents
 
-**GreenPath** é um aplicativo móvel nativo (Android/iOS) que permite aos usuários calcularem, monitorarem e agirem para reduzir sua pegada de carbono pessoal. Através do registro de atividades diárias como transporte, alimentação e consumo de energia, o app fornece insights claros sobre o impacto ambiental de cada usuário, incentivando hábitos mais sustentáveis.
-
-Além do monitoramento, o projeto também visa fortalecer a economia local e consciente, apresentando uma lista de **lojas e serviços parceiros** que seguem práticas sustentáveis, criando um ecossistema completo para uma vida mais verde.
-
----
-
-### ✨ Funcionalidades
-
--   ✅ **Cadastro e Login de Usuários:** Autenticação segura com e-mail/senha e login social (Google).
--   📊 **Dashboard Personalizado:** Visualização rápida da emissão de CO₂ do dia e gráficos com o histórico semanal/mensal.
--   📝 **Registro de Atividades:** Interface simples para registrar gastos de carbono em 3 categorias principais:
-    -   🚗 **Transporte:** Cadastro de viagens por carro, transporte público, apps, etc.
-    -   🍔 **Alimentação:** Registro simplificado do tipo de refeição (onívora, vegetariana, vegana).
-    -   🏠 **Casa & Energia:** Lançamento mensal do consumo de eletricidade e gás.
--   🌍 **Lojas Parceiras:** Descubra negócios locais e sustentáveis através de uma lista com filtros, busca e visualização no mapa.
--   💡 **Dicas e Metas:** Seção para engajar o usuário com dicas de sustentabilidade e metas de redução.
+* [About the Project](#-about-the-project)
+* [✨ Features](#-features)
+* [📱 App Screens](#-app-screens)
+* [🛠️ Technologies Used](#️-technologies-used)
+* [🚀 How to Run the Project](#-how-to-run-the-project)
+* [📝 License](#-license)
+* [👨‍💻 Author](#-author)
 
 ---
 
-### 🛠️ Tecnologias Utilizadas
+### 📌 About the Project
 
-O projeto foi construído utilizando uma abordagem "serverless" (sem back-end próprio), consumindo serviços externos para agilizar o desenvolvimento do MVP.
+**GreenPath** is a native mobile app (Android/iOS) that allows users to calculate, monitor, and take action to reduce their personal carbon footprint. By logging daily activities such as transportation, food, and energy consumption, the app provides clear insights into each user's environmental impact, encouraging more sustainable habits.
 
-* **Plataforma Mobile:** `Android (Java/Kotlin)` ou `iOS (Swift/SwiftUI)` * **Banco de Dados e Autenticação:** `Firebase (Firestore, Authentication, Storage)`
-* **APIs Externas:**
-    * `Climatiq API`: Para o cálculo preciso das emissões de CO₂.
-* **Design e Prototipação:** `Figma` ---
+Beyond monitoring, the project also aims to strengthen the local and conscious economy by featuring a list of **partner stores and services** that follow sustainable practices, creating a complete ecosystem for a greener life.
+
+---
+
+### ✨ Features
+
+-   ✅ **User Registration and Login:** Secure authentication with email/password and social login (Google).
+-   📊 **Personalized Dashboard:** Quick view of the day's CO₂ emissions and charts with weekly/monthly history.
+-   📝 **Activity Logging:** A simple interface to log carbon expenses in 3 main categories:
+    -   🚗 **Transportation:** Log trips by car, public transport, ride-sharing apps, etc.
+    -   🍔 **Food:** Simplified logging of meal types (omnivorous, vegetarian, vegan).
+    -   🏠 **Home & Energy:** Monthly entry of electricity and gas consumption.
+-   🌍 **Partner Stores:** Discover local and sustainable businesses through a list with filters, search, and a map view.
+-   💡 **Tips and Goals:** A section to engage the user with sustainability tips and reduction goals.
+
+---
+
+### 🛠️ Technologies Used
+
+The project was built using a "serverless" approach (no custom back-end), consuming external services to speed up the MVP development.
+
+* **Mobile Platform:** `Android (Java/Kotlin)` or `iOS (Swift/SwiftUI)`
+* **Database and Authentication:** `Firebase (Firestore, Authentication, Storage)`
+* **External APIs:**
+    * `Climatiq API`: For precise CO₂ emissions calculations.
+* **Design and Prototyping:** `Figma`
+
+---
+
+### 📝 License
+
+This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
+
+
